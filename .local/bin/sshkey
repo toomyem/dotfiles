@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ssh-add ~/.ssh/mykey2
+

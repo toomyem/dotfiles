@@ -1,0 +1,11 @@
+window:
+  padding:
+    x: 5
+    y: 5
+  opacity: 0.8
+
+font:
+  normal:
+    family: CaskaydiaCove NFM
+    style: Regular
+  size: 10
