@@ -6,11 +6,7 @@ hc() {
   herbstclient $*
 }
 
-to_lower() {
-  echo "$1" | tr '[:upper:]' '[:lower:]'
-}
-
-Mod=Mod4
+Mod=Mod1
 
 # ===== Theme sttings ================================
 
@@ -35,24 +31,35 @@ hc attr settings.default_frame_layout horizontal
 
 hc keyunbind --all
 
-hc keybind $Mod+Control+r  reload
-hc keybind $Mod+Control+q    quit
+hc keybind $Mod+Control+r      reload
+hc keybind $Mod+Control+q      quit
 
-hc keybind $Mod+Return     spawn alacritty
-hc keybind $Mod+r          spawn rofi -show drun
-hc keybind $Mod+f          set_attr clients.focus.floating toggle
+hc keybind $Mod+Return         spawn alacritty
+hc keybind $Mod+r              spawn rofi -show drun
+hc keybind $Mod+f              set_attr clients.focus.floating toggle
 
-hc keybind $Mod+BackSpace  focus_monitor +1
-hc keybind $Mod+Delete     close_or_remove
+hc keybind $Mod+BackSpace      focus_monitor +1
+hc keybind $Mod+Delete         close_or_remove
 
-for dir in Left Right Up Down
-do
-  ldir=$(to_lower $dir)
-  hc keybind $Mod+$dir          focus $ldir
-  hc keybind $Mod+Shift+$dir    shift $ldir
-  hc keybind $Mod+Alt+$dir      chain , split $ldir , focus $ldir
-  hc keybind $Mod+Control+$dir  resize $ldir
-done
+hc keybind $Mod+Left           focus left
+hc keybind $Mod+Right          focus right
+hc keybind $Mod+Up             focus up
+hc keybind $Mod+Down           focus down
+  
+hc keybind $Mod+Mod4+Left      chain , split left , focus left
+hc keybind $Mod+Mod4+Right     chain , split right , focus right
+hc keybind $Mod+Mod4+Up        chain , split top , focus up
+hc keybind $Mod+Mod4+Down      chain , split bottom , focus down
+
+hc keybind $Mod+Shift+Left     shift left
+hc keybind $Mod+Shift+Right    shift right
+hc keybind $Mod+Shift+Up       shift top
+hc keybind $Mod+Shift+Down     shift bottom
+
+hc keybind $Mod+Control+Left   resize left
+hc keybind $Mod+Control+Right  resize right
+hc keybind $Mod+Control+Up     resize top
+hc keybind $Mod+Control+Down   resize bottom
 
 for i in {1..9}; do
   hc add $i
@@ -63,7 +70,7 @@ done
 hc keybind XF86AudioPlay   spawn spotify-tui playback -t
 hc keybind XF86AudioNext   spawn spotify-tui playback -n
 hc keybind XF86AudioPrev   spawn spotify-tui playback -p
-hc keybind XF86Calculator  spawn galculator
+hc keybind XF86Calculator  spawn rofi -show calc
 
 [ $(hc tag_status | grep -c default) -gt 0 ] && hc use 1 && hc merge_tag default
 

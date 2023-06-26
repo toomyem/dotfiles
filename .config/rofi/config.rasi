@@ -1,0 +1,8 @@
+
+configuration {
+  modi: "window,drun,run,ssh,filebrowser,calc,windowcd";
+  terminal: "alacritty";
+}
+
+@theme "/usr/share/rofi/themes/glue_pro_blue.rasi"
+
