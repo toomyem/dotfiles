@@ -10,5 +10,7 @@ alias cfg='git --work-tree=$HOME --git-dir=$HOME/.cfg'
 
 PS1='\h:\w\$ '
 
+source /usr/share/bash-completion/completions/herbstclient
+
 neofetch
 
