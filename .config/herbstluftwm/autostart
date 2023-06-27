@@ -6,8 +6,6 @@ hc() {
   herbstclient $*
 }
 
-Mod=Mod1
-
 # ===== Theme sttings ================================
 
 active_frame_color='#ff0000'
@@ -28,6 +26,8 @@ hc attr settings.swap_monitors_to_get_tag true
 hc attr settings.default_frame_layout horizontal
 
 # ===== Key binding =================================
+
+Mod=Mod1
 
 hc keyunbind --all
 
@@ -53,13 +53,13 @@ hc keybind $Mod+Mod4+Down      chain , split bottom , focus down
 
 hc keybind $Mod+Shift+Left     shift left
 hc keybind $Mod+Shift+Right    shift right
-hc keybind $Mod+Shift+Up       shift top
-hc keybind $Mod+Shift+Down     shift bottom
+hc keybind $Mod+Shift+Up       shift up
+hc keybind $Mod+Shift+Down     shift down
 
 hc keybind $Mod+Control+Left   resize left
 hc keybind $Mod+Control+Right  resize right
-hc keybind $Mod+Control+Up     resize top
-hc keybind $Mod+Control+Down   resize bottom
+hc keybind $Mod+Control+Up     resize up
+hc keybind $Mod+Control+Down   resize down
 
 for i in {1..9}; do
   hc add $i
@@ -84,6 +84,7 @@ hc mousebind $Mod+Button3 resize
 hc unrule --all
 hc rule class=Galculator floating=true floatplacement=center focus=on
 hc rule class=Signal floating=true floatplacement=center focus=on
+hc rule class=vlc floating=true focus=on
 
 hc detect_monitors
 
