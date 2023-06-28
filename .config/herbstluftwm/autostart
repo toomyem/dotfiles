@@ -37,6 +37,7 @@ hc keybind $Mod+Control+q      quit
 hc keybind $Mod+Return         spawn alacritty
 hc keybind $Mod+r              spawn rofi -show drun
 hc keybind $Mod+f              set_attr clients.focus.floating toggle
+hc keybind $Mod+Tab            cycle_all
 
 hc keybind $Mod+BackSpace      focus_monitor +1
 hc keybind $Mod+Delete         close_or_remove
@@ -46,10 +47,10 @@ hc keybind $Mod+Right          focus right
 hc keybind $Mod+Up             focus up
 hc keybind $Mod+Down           focus down
   
-hc keybind $Mod+Mod4+Left      chain , split left , focus left
-hc keybind $Mod+Mod4+Right     chain , split right , focus right
-hc keybind $Mod+Mod4+Up        chain , split top , focus up
-hc keybind $Mod+Mod4+Down      chain , split bottom , focus down
+hc keybind $Mod+Mod4+Left      chain , split left , focus left , spawn alacritty
+hc keybind $Mod+Mod4+Right     chain , split right , focus right , spawn alacritty
+hc keybind $Mod+Mod4+Up        chain , split top , focus up , spawn alacritty
+hc keybind $Mod+Mod4+Down      chain , split bottom , focus down , spawn alacritty
 
 hc keybind $Mod+Shift+Left     shift left
 hc keybind $Mod+Shift+Right    shift right
@@ -63,13 +64,14 @@ hc keybind $Mod+Control+Down   resize down
 
 for i in {1..9}; do
   hc add $i
-  hc keybind $Mod+$i        use $i
-  hc keybind $Mod+Shift+$i  chain , move $i , use $i
+  hc keybind $Mod+$i        use_index $((i-1))
+  hc keybind $Mod+Shift+$i  chain , move_index $((i-1)) , use_index $((i-1))
 done
 
-hc keybind XF86AudioPlay   spawn spotify-tui playback -t
-hc keybind XF86AudioNext   spawn spotify-tui playback -n
-hc keybind XF86AudioPrev   spawn spotify-tui playback -p
+hc keybind XF86AudioPlay   spawn playerctl play-pause
+hc keybind XF86AudioNext   spawn playerctl next
+hc keybind XF86AudioPrev   spawn playerctl previous
+
 hc keybind XF86Calculator  spawn rofi -show calc
 
 [ $(hc tag_status | grep -c default) -gt 0 ] && hc use 1 && hc merge_tag default
