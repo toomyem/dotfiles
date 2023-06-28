@@ -8,9 +8,7 @@ alias ll='ls -l'
 alias hc='herbstclient'
 alias cfg='git --work-tree=$HOME --git-dir=$HOME/.cfg'
 
-PS1='\h:\w\$ '
-
 source /usr/share/bash-completion/completions/herbstclient
+source $HOME/.local/share/bash/prompt.sh
 
 neofetch
-
