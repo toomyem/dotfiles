@@ -54,14 +54,14 @@ hlwm() {
         [ $(herbstclient attr tags.$i.client_count) -eq 0 ] && color="%{F$tag_empty}"
         [ $(herbstclient attr tags.$i.urgent_count) -gt 0 ] && color="%{F$tag_urgent}"
         [ $(herbstclient attr tags.focus.index) -eq $i ] && name="[$name]" && color="%{F$tag_active}"
-        s="$s $color$name%{F-}"
+        s="$s $color%{A:switch_to_$i:}$name%{A}%{F-}"
     done
 
     echo "$s"
 }
 
 wtitle() {
-    herbstclient attr clients.focus.title
+    herbstclient attr clients.focus.title 2> /dev/null
 }
 
 player() {
@@ -95,7 +95,8 @@ do
     read -r -t 2 cmd || true
     case "$cmd" in
         play-pause) playerctl play-pause ;;
+        switch_to_*) herbstclient use_index ${cmd#switch_to_} ;;
     esac
     echo "%{l}$(show ${widgets_left[@]})%{c}$(show ${widgets_center[@]})%{r}$(show ${widgets_right[@]})"
-done < $SOCK | lemonbar -g 1920x28+1920+0 -p -B $bar_bg_color -f "CaskaydiaCove NFM:style=Regular:size=12" -f "Font Awesome 6 Free:style=Solid:size=14" > $SOCK
+done < $SOCK | lemonbar -g 1920x28+1920+0 -p -a 20 -B $bar_bg_color -f "CaskaydiaCove NFM:style=Regular:size=12" -f "Font Awesome 6 Free:style=Solid:size=14" > $SOCK
 

@@ -36,6 +36,8 @@ hc keybind $Mod+Control+q      quit
 
 hc keybind $Mod+Return         spawn alacritty
 hc keybind $Mod+r              spawn rofi -show drun
+hc keybind $Mod+Shift+r        spawn rofi -show run
+hc keybind $Mod+c              spawn galculator
 hc keybind $Mod+f              set_attr clients.focus.floating toggle
 hc keybind $Mod+Tab            cycle_all
 
