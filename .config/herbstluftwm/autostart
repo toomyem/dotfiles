@@ -6,6 +6,14 @@ hc() {
   herbstclient $*
 }
 
+# ===== Restart lemonbar =============================
+
+while [ $(ps -fe | grep lemonbar | grep -v grep | wc -l) -gt 0 ]
+do
+  pkill lemonbar
+done
+$HOME/.config/herbstluftwm/lemonbar.sh &
+
 # ===== Theme sttings ================================
 
 active_frame_color='#ff0000'
@@ -87,8 +95,9 @@ hc mousebind $Mod+Button3 resize
 
 hc unrule --all
 hc rule class=Galculator floating=true floatplacement=center focus=on
-hc rule class=Signal floating=true floatplacement=center focus=on
-hc rule class=vlc floating=true focus=on
+hc rule class=Signal     floating=true floatplacement=center focus=on
+hc rule class=Scratchpad floating=true floatplacement=center floating_geometry=1000x500
+hc rule class=vlc        floating=true focus=on
 
 hc detect_monitors
 

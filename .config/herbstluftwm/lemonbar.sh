@@ -2,7 +2,6 @@
 
 set -e
 
-tag_active="#ffffff"
 tag_empty="#808080"
 tag_normal="#f0f0f0"
 tag_urgent="#ff0000"
@@ -32,7 +31,7 @@ datetime() {
 }
 
 xbps() {
-    echo "%{T2}%{T-} $(xbps-install -un | wc -l)"
+    echo "%{A:xbps:}%{T2}%{T-} $(xbps-install -un | wc -l)%{A}"
 }
 
 cpuload() {
@@ -53,7 +52,7 @@ hlwm() {
         color="%{F$tag_normal}"
         [ $(herbstclient attr tags.$i.client_count) -eq 0 ] && color="%{F$tag_empty}"
         [ $(herbstclient attr tags.$i.urgent_count) -gt 0 ] && color="%{F$tag_urgent}"
-        [ $(herbstclient attr tags.focus.index) -eq $i ] && name="[$name]" && color="%{F$tag_active}"
+        [ $(herbstclient attr tags.focus.index) -eq $i ] && name="[$name]"
         s="$s $color%{A:switch_to_$i:}$name%{A}%{F-}"
     done
 
@@ -61,16 +60,16 @@ hlwm() {
 }
 
 wtitle() {
-    herbstclient attr clients.focus.title 2> /dev/null
+    echo "$(herbstclient attr clients.focus.title 2> /dev/null)"
 }
 
 player() {
     [ $(playerctl -ls | wc -l) -eq 0 ] && return
     local t="$(playerctl metadata title) ($(playerctl metadata artist))"
-    local s="$t %{T2}%{A:play-pause:}"
+    local s="$t %{A:play-pause:}%{T2}"
     [ $(playerctl status) = "Playing" ] && s="$s"
     [ $(playerctl status) = "Paused" ] && s="$s"
-    echo "$s%{A}%{T-}"
+    echo "$s%{T-}%{A}"
 }
 
 show() {
@@ -92,10 +91,11 @@ herbstclient -i > $SOCK &
 
 while true
 do
-    read -r -t 2 cmd || true
+    read -r -t 1 cmd || true
     case "$cmd" in
-        play-pause) playerctl play-pause ;;
+        play-pause) playerctl play-pause ; sleep 0.5 ;;
         switch_to_*) herbstclient use_index ${cmd#switch_to_} ;;
+        xbps) alacritty --class Scratchpad -e sudo /sbin/xbps-install -u ;;
     esac
     echo "%{l}$(show ${widgets_left[@]})%{c}$(show ${widgets_center[@]})%{r}$(show ${widgets_right[@]})"
 done < $SOCK | lemonbar -g 1920x28+1920+0 -p -a 20 -B $bar_bg_color -f "CaskaydiaCove NFM:style=Regular:size=12" -f "Font Awesome 6 Free:style=Solid:size=14" > $SOCK
