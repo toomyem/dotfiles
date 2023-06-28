@@ -50,4 +50,8 @@ vim.keymap.set("n", "<leader>fb", builtin.buffers)
 vim.o.number = true
 vim.o.relativenumber = true
 vim.g.colors_name = "slote"
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
 
