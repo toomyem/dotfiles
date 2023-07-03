@@ -11,6 +11,6 @@ pipewire &
 (sleep 1 ; wireplumber) &
 dunst &
 signal-desktop --start-in-tray &
-xscreensaver --no-splash &
+playerctld daemon
 
 exec dbus-run-session herbstluftwm

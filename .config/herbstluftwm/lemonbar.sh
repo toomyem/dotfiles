@@ -74,7 +74,7 @@ disk() {
     do
         local d=$(df -h --output=target,used,size / | tail +2 | awk '{out=" "out$1" "$2"/"$3} END {print out}')
         echo "set:disk:%{T2}%{T-}$d" > $SOCK
-        sleep 1
+        sleep 60
     done
 }
 
@@ -97,6 +97,7 @@ hlwm() {
         done
 
         local title="$(herbstclient attr clients.focus.title 2> /dev/null)"
+        [ ${#title} -gt 30 ] && title="${title:0:30}…"
 
         echo "set:hlwm:$tags | $title" > $SOCK
         sleep 1
@@ -107,17 +108,15 @@ hlwm &
 
 player() {
     local cmd
-    playerctl -F -f "{{playerName}}:{{status}}:{{trunc(title, 30)}} ({{trunc(artist, 20)}})" metadata | while read -r cmd
+    playerctl -F -p playerctld -f "{{status}}:{{trunc(title, 30)}} ({{trunc(artist, 20)}})" metadata | while read -r cmd
     do
-        local player="${cmd/:*/}"
-        cmd=${cmd#$player:}
         local status="${cmd/:*/}"
         cmd=${cmd#$status:}
         case "$status" in
             Playing) cmd="$cmd %{T2}%{T-}" ;;
             Paused) cmd="$cmd %{T2}%{T-}" ;;
         esac
-        echo "set:player:%{A:play-pause-$player:}$cmd%{A}" > $SOCK
+        echo "set:player:%{A:play-pause:}$cmd%{A}" > $SOCK
     done
 }
 
@@ -143,7 +142,7 @@ while true
 do
     read -r -t 1 cmd || true
     case "$cmd" in
-        play-pause-*) playerctl -p "${cmd#play-pause-}" play-pause ;;
+        play-pause) playerctl -p playerctld play-pause ;;
         switch-to-*) herbstclient use_index ${cmd#switch-to-} ;;
         xbps) alacritty --class Scratchpad -e sudo /bin/xbps-install -u ;;
         set:*) cmd=${cmd#set:} ; v=${cmd/:*/} ; cmd=${cmd#$v:} ; widgets[$v]="$cmd" ;;

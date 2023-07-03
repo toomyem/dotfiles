@@ -80,9 +80,9 @@ for i in {1..9}; do
   hc keybind $Mod+Shift+$i  chain , move_index $((i-1)) , use_index $((i-1))
 done
 
-hc keybind XF86AudioPlay   spawn playerctl play-pause
-hc keybind XF86AudioNext   spawn playerctl next
-hc keybind XF86AudioPrev   spawn playerctl previous
+hc keybind XF86AudioPlay   spawn playerctl -p playerctld play-pause
+hc keybind XF86AudioNext   spawn playerctl -p playerctld next
+hc keybind XF86AudioPrev   spawn playerctl -p playerctld previous
 
 hc keybind XF86Calculator  spawn rofi -show calc
 
