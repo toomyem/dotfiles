@@ -39,9 +39,16 @@ datetime() {
 datetime &
 
 xbps() {
+    local prev_updates=0
     while true
     do
-        echo "set:xbps:%{A:xbps:}%{T2}%{T-} $(xbps-install -un | wc -l)%{A}" > $SOCK
+        local updates=$(xbps-install -un | wc -l)
+        echo "set:xbps:%{A:xbps:}%{T2}%{T-} $updates%{A}" > $SOCK
+        if [ $updates -gt $prev_updates ]
+        then
+            prev_updates=$updates
+            notify-send -t 10000 Updates! "$(xbps-install -un | cut -d' ' -f1)"
+        fi
         sleep 60
     done
 }
