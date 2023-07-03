@@ -21,8 +21,9 @@ fg_bold[cyan]="\e[1;36m"
 fg_bold[while]="\e[1;37m"
 
 _git_branch() {
-    g=$(git branch 2>/dev/null)
-    [ -n "$g" ] && echo -e " ${fg[green]}[on  $g]${fg[reset]}"
+    b=$(git branch 2>/dev/null | grep '*' | awk '{print $2}')
+    d=""
+    [ -n "$b" ] && echo -e " ${fg[green]}[on  $b]${fg[reset]}"
 }
 
 PROMPT_COMMAND="_status=\$?"
