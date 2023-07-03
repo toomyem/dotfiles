@@ -11,6 +11,7 @@ hc() {
 while [ $(ps -fe | grep lemonbar | grep -v grep | wc -l) -gt 0 ]
 do
   pkill lemonbar
+  sleep 0.5
 done
 $HOME/.config/herbstluftwm/lemonbar.sh &
 
@@ -35,7 +36,7 @@ hc attr settings.default_frame_layout horizontal
 
 # ===== Key binding =================================
 
-Mod=Mod1
+Mod=Mod4
 
 hc keyunbind --all
 
@@ -47,20 +48,21 @@ hc keybind $Mod+r              spawn rofi -show drun
 hc keybind $Mod+Shift+r        spawn rofi -show run
 hc keybind $Mod+c              spawn galculator
 hc keybind $Mod+f              set_attr clients.focus.floating toggle
-hc keybind $Mod+Tab            cycle_all
+
+hc keybind Mod1+Tab            cycle_all
 
 hc keybind $Mod+BackSpace      focus_monitor +1
-hc keybind $Mod+Delete         close_or_remove
+hc keybind $Mod+Delete         close_and_remove
 
 hc keybind $Mod+Left           focus left
 hc keybind $Mod+Right          focus right
 hc keybind $Mod+Up             focus up
 hc keybind $Mod+Down           focus down
   
-hc keybind $Mod+Mod4+Left      chain , split left , focus left , spawn alacritty
-hc keybind $Mod+Mod4+Right     chain , split right , focus right , spawn alacritty
-hc keybind $Mod+Mod4+Up        chain , split top , focus up , spawn alacritty
-hc keybind $Mod+Mod4+Down      chain , split bottom , focus down , spawn alacritty
+hc keybind $Mod+Alt+Left       chain , split left , focus left
+hc keybind $Mod+Alt+Right      chain , split right , focus right
+hc keybind $Mod+Alt+Up         chain , split top , focus up
+hc keybind $Mod+Alt+Down       chain , split bottom , focus down
 
 hc keybind $Mod+Shift+Left     shift left
 hc keybind $Mod+Shift+Right    shift right
