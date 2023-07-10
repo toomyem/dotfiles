@@ -3,7 +3,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='exa --icons -g'
+alias ls='lsd'
 alias ll='ls -l'
 alias hc='herbstclient'
 alias cfg='git --work-tree=$HOME --git-dir=$HOME/.cfg'
