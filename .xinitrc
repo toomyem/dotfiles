@@ -5,7 +5,7 @@
 HOSTNAME="${HOSTNAME:-$(hostname)}"
 [ -x "$HOME/.screenlayout/$HOSTNAME.sh" ] && "$HOME/.screenlayout/$HOSTNAME.sh"
 
-~/.fehbg &
+[ -x ~/.fehbg ] && ~/.fehbg &
 
 setxkbmap pl
 
