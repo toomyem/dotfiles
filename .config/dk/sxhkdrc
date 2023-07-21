@@ -1,0 +1,57 @@
+# example sxhkdrc for use with dk
+#########################################################
+
+# launcher
+mod4 + r
+	rofi -show drun
+
+# terminal
+mod4 + Return
+	alacritty
+
+# screenshot and selection capture
+{_,alt + }@Print
+	scrot {_,-s}
+
+# alt volume keys
+XF86AudioPlay
+	play-pause
+
+# reload sxhkd
+mod4 + shift + x
+	pkill -USR1 -x sxhkd
+
+# quit dk
+mod4 + shift + q
+	dkcmd exit
+
+# reload dkrc
+mod4 + shift + r
+	$HOME/.config/dk/dkrc
+
+# restart dk
+mod4 + ctrl + shift + r
+	dkcmd restart
+
+# focus next or previous window
+alt + {_,shift} + Tab
+	dkcmd win focus {next,prev}
+
+mod4 + Delete
+	dkcmd win kill
+
+mod4 + f
+	dkcmd win float
+
+mod4 + {Left,Down,Up,Right}
+	dkcmd win resize {w=-20,h=+20,h=-20,w=+20}
+
+mod4 + {Up,Down}
+	dkcmd win mvstack {up,down}
+
+mod4 + {_,shift + ,ctrl + }{1-9,0}
+	dkcmd ws {view,send,follow} {1-9,10}
+
+mod4 + {_,shift + }{Plus,Minus}
+	dkcmd set {master,stack} {+1,-1}
+

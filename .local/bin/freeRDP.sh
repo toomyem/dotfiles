@@ -14,6 +14,7 @@ nohup xfreerdp \
     /floatbar:sticky:off,show:fullscreen \
     /drive:H,$HOME \
     /cert:ignore \
+    /size:1920x1080 \
     /p:$x > $LOG 2>&1 &
 
 sleep 5

@@ -22,10 +22,10 @@ fg_bold[while]="\e[1;37m"
 
 _git_branch() {
     branch=$(git branch 2>/dev/null | grep '*' | awk '{print $2}')
-    [ $(git status --porcelain 2>/dev/null | wc -l) -gt 0 ] && dirty=" *"
+    [ "$(git status --porcelain 2>/dev/null | wc -l)" -gt 0 ] && dirty=" *"
     [ -n "$branch" ] && echo -e " ${fg[green]}[on  ${branch}${dirty}]${fg[reset]}"
 }
 
 PROMPT_COMMAND="_status=\$?"
-PS1="\n${fg[yellow]}\w${fg[reset]}\$(_git_branch)\n(\$_status) > "
+PS1="\n${fg[white]}[\h]${fg[reset]} ${fg[yellow]}\w${fg[reset]}\$(_git_branch)\n(\$_status) > "
 

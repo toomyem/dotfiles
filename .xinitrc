@@ -17,4 +17,4 @@ dunst &
 #signal-desktop --start-in-tray &
 playerctld daemon
 
-exec dbus-run-session qtile start #herbstluftwm
+exec dbus-run-session dk #qtile start #herbstluftwm

@@ -60,6 +60,7 @@ keys = [
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
     Key([mod], "m", lazy.window.toggle_maximize(), desc="Toggle maxmize"),
+    Key([mod], "c", lazy.spawn("galculator"), desc="Run calcluator"),
 
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
@@ -120,6 +121,7 @@ layouts = [
 
 widget_defaults = dict(
     font="NotoMono NFP",
+#    font="Ubuntu Nerd Font",
     fontsize=16,
     padding=5,
 )
@@ -183,6 +185,7 @@ floating_layout = layout.Floating(
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(wm_class="Scratchpad"),
+        Match(wm_class="Galculator"),
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
     ],

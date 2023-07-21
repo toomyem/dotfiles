@@ -1,0 +1,122 @@
+#!/bin/sh
+
+# example dkrc to show some basic command usage and error reporting
+
+# determine where to place the log file
+logfile="$HOME/.dkrc.log"
+[ -d "$HOME/.local/share/xorg" ] && logfile="$HOME/.local/share/xorg/dkrc.log"
+: > "$logfile"
+
+
+# (re)load sxhkd for keybinds
+if hash sxhkd >/dev/null 2>&1; then
+	pkill sxhkd
+	sxhkd -c "$HOME/.config/dk/sxhkdrc" &
+fi
+
+if hash lemonbar.sh >/dev/null 2>&1; then
+	pkill lemonbar
+	lemonbar.sh &
+fi
+
+border_width=2
+border_outer_width=0
+
+{ # compound command to redirect all output
+
+	# workspace settings
+	# ------------------------
+
+	# initialize 10 workspaces (1-10) (default: 1/monitor)
+	dkcmd set numws=10 static_ws=false
+
+	# default workspace '_' values used when allocating new workspaces
+	# can be applied to all existing workspaces when passed 'apply' after ws=_
+	dkcmd set ws=_ apply layout=tile master=1 stack=3 gap=5 msplit=0.5 ssplit=0.5
+
+	# change workspace names (default: number == name)
+	# dkcmd set \
+	# 	ws=1  name="edit" \
+	# 	ws=2  name="web" \
+	# 	ws=3  name="😀" \
+	# 	ws=4  name="😠" \
+	# 	ws=5  name="5" \
+	# 	ws=6  name="6" \
+	# 	ws=7  name="7" \
+	# 	ws=8  name="8" \
+	# 	ws=9  name="9" \
+	# 	ws=10 name="10"
+
+	# enable static workspaces and assign them to monitors (only relevant for multiple monitors)
+	# aside -
+	#       many that come from other workspace models tried dk and requested this feature
+	#       try embracing the default behaviour and allow access to any workspace from any monitor
+	#       you might end up liking it :)
+	#
+	# mon1='DisplayPort-0'
+	# mon2='HDMI-A-0'
+	# dkcmd set static_ws=true \
+	# 	ws=1  mon=$mon1 \
+	# 	ws=2  mon=$mon1 \
+	# 	ws=3  mon=$mon1 \
+	# 	ws=4  mon=$mon1 \
+	# 	ws=5  mon=$mon1 \
+	# 	ws=6  mon=$mon2 \
+	# 	ws=7  mon=$mon2 \
+	# 	ws=8  mon=$mon2 \
+	# 	ws=9  mon=$mon2 \
+	# 	ws=10 mon=$mon2
+
+
+	# global settings
+	# ---------------------
+
+	dkcmd set focus_open=true focus_urgent=true focus_mouse=true
+
+	dkcmd set tile_tohead=0 tile_hints=false
+
+	dkcmd set win_minwh=50 win_minxy=10
+
+	dkcmd set smart_gap=false smart_border=false
+
+	dkcmd set mouse mod=mod4 move=button1 resize=button3
+
+	dkcmd set border width=$border_width outer_width=$border_outer_width \
+		colour \
+		focus='#6699cc' \
+		unfocus='#444444' \
+		urgent='#ee5555' \
+		outer_focus='#222222' \
+		outer_unfocus='#222222' \
+		outer_urgent='#222222'
+
+	dkcmd rule class="^Signal$" ws=8
+	dkcmd rule class="^ncspot$" ws=9
+	dkcmd rule class="^Firefox$" ws=1
+	dkcmd rule class="^xfreerdp$" ws=4
+
+	# open window(s) and use a callback function (user defined in config.h)
+	# we also ignore=true to stop the window from being resized on it's own from events
+	# eg. mpv --x11-name=albumart /path/to/media
+	#dkcmd rule class="^mpv$" instance="^albumart$" float=true ignore=true callback=albumart bw=0
+
+	# open window(s) in a floating state
+	dkcmd rule class="^(pavucontrol|transmission-gtk|steam|lxappearance)$" float=true
+	dkcmd rule class="^Scratchpad$" float=true w=800 h=600 x=center y=center
+
+	# apply current rule set to all existing windows (useful for WM reload/restart)
+	dkcmd rule apply '*'
+
+	# delete all rules
+	# dkcmd rule remove '*'
+
+} >> "$logfile" 2>&1 # append responses
+
+# inform of any errors in a notification
+if grep -q 'error:' "$logfile"; then
+	hash notify-send && notify-send -t 0 -u critical "dkrc has errors" \
+		"$(awk '/error:/ {sub(/^error: /, ""); gsub(/</, "\<"); print}' "$logfile")"
+	exit 1
+fi
+
+exit 0

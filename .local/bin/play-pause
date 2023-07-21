@@ -1,0 +1,6 @@
+#!/bin/sh
+
+SOCK="$HOME/.cache/lemonbar/lemon.sock"
+
+[ -e "$SOCK" ] && echo "play-pause" >"$SOCK"
+
