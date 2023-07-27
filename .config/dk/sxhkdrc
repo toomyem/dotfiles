@@ -5,6 +5,9 @@
 mod4 + r
 	rofi -show drun
 
+mod4 + shift + r
+	rofi -show run
+
 # terminal
 mod4 + Return
 	alacritty
@@ -18,15 +21,15 @@ XF86AudioPlay
 	play-pause
 
 # reload sxhkd
-mod4 + shift + x
+mod4 + ctrl + x
 	pkill -USR1 -x sxhkd
 
 # quit dk
-mod4 + shift + q
+mod4 + ctrl + q
 	dkcmd exit
 
 # reload dkrc
-mod4 + shift + r
+mod4 + ctrl + r
 	$HOME/.config/dk/dkrc
 
 # restart dk

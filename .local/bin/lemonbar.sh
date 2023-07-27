@@ -12,14 +12,15 @@ CACHEDIR=$HOME/.cache/lemonbar
 SOCK=$CACHEDIR/lemon.sock
 
 [ -d "$CACHEDIR" ] || mkdir -p "$CACHEDIR"
-[ -e "$SOCK" ] && rm "$SOCK"
+[ -r "$SOCK" ] && rm -f "$SOCK"
 mkfifo "$SOCK"
 
 cleanup() {
 	rm "$SOCK"
+	kill 0
 }
 
-trap cleanup EXIT
+trap cleanup EXIT INT TERM
 
 sep() {
 	echo " | "
@@ -34,21 +35,23 @@ trim() {
 	echo "$s"
 }
 
+network() {
+	local s
+
+	s=$(ping -c 1 -w 1 -q 8.8.8.8 >/dev/null 2>&1 && echo "%{T2}%{T-}")
+	echo "$s"
+}
+
 calendar() {
 	echo " $(date '+%a %d/%m %H:%M:%S')"
 }
 
 xbps() {
+	local color updates
+
 	updates=$(xbps-install -un | wc -l)
-	color="$tag_normal"
-	[ "$updates" -gt 0 ] && color="$tag_urgent"
-	echo "%{F$color}%{A:xbps:} $updates%{A}%{F-}"
-#	if [ "$updates" -eq 0 ]; then
-#		prev_updates=0
-#	elif [ "$updates" -gt "$prev_updates" ]; then
-#		prev_updates="$updates"
-#		notify-send -t 10000 Updates! "$(xbps-install -un | cut -d' ' -f1)"
-#	fi
+	[ "$updates" -gt 0 ] && updates="%{F$tag_urgent}$updates%{F-}"
+	echo "%{A:xbps:} $updates%{A}"
 }
 
 cpuload() {
@@ -91,12 +94,10 @@ hlwm() {
 }
 
 desktops() {
-	local STATUS
-	local s="" ws w wn
 	declare -a WS
+	local ws w wn s
 
-	STATUS="$(dkcmd status type=ws num=1)"
-	IFS=: read -r -a WS <<< "$STATUS"
+	IFS=: read -r -a WS <<< "$(dkcmd status type=ws num=1)"
 	for ws in "${WS[@]}"
 	do
 		w=""
@@ -152,6 +153,6 @@ while true; do
 	  xbps) alacritty --class Scratchpad -e sudo /bin/xbps-install -u ;;
 	  ws-*) dkcmd win ws="${cmd#ws-}" ;;
 	esac
-	echo "%{l}$(show desktops window)%{c}$(show )%{r}$(show player cpuload memory disk xbps calendar)"
-done <"$SOCK" | tee ~/.lemonbar.log | lemonbar -g 1920x28+1920+0 -p -a 20 -F "$bar_fg_color" -B "$bar_bg_color" -f "CaskaydiaCove NFP:style=Regular:size=12" >"$SOCK"
+	echo "%{l}$(show desktops window)%{c}$(show )%{r}$(show player cpuload memory disk network xbps calendar)"
+done <"$SOCK" | lemonbar -g 1600x28+0+0 -p -a 20 -F "$bar_fg_color" -B "$bar_bg_color" -f "CaskaydiaCove NFP:size=12" -f "FontAwesome:size=12" >"$SOCK"
 

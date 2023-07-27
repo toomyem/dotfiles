@@ -10,11 +10,14 @@ HOSTNAME="${HOSTNAME:-$(hostname)}"
 setxkbmap pl
 
 picom -b
-pipewire &
-(sleep 1 ; pipewire-pulse) &
-(sleep 1 ; wireplumber) &
-dunst &
-#signal-desktop --start-in-tray &
 playerctld daemon
+
+pipewire &
+sleep 1
+pipewire-pulse &
+wireplumber &
+dunst &
+polybar -r &
+syncthing serve --no-browser --logfile $HOME/.syncthing.log &
 
 exec dbus-run-session dk #qtile start #herbstluftwm
