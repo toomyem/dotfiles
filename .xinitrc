@@ -17,7 +17,6 @@ sleep 1
 pipewire-pulse &
 wireplumber &
 dunst &
-polybar -r &
-syncthing serve --no-browser --logfile $HOME/.syncthing.log &
+syncthing serve --no-browser >$HOME/.syncthing.log 2>&1 &
 
 exec dbus-run-session dk #qtile start #herbstluftwm

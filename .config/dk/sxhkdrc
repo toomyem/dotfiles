@@ -13,8 +13,8 @@ mod4 + Return
 	alacritty
 
 # screenshot and selection capture
-{_,alt + }@Print
-	scrot {_,-s}
+mod4 + shift + s
+	make_screenshot
 
 # alt volume keys
 XF86AudioPlay

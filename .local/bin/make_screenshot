@@ -1,4 +1,4 @@
 #!/bin/bash
 
-scrot -s -F - | xclip -i -selection clipboard -target image/png
+scrot -s -F - | tee $HOME/Pobrane/screenshot.png | xclip -i -selection clipboard -target image/png
 

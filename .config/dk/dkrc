@@ -14,11 +14,11 @@ if hash sxhkd >/dev/null 2>&1; then
 	sxhkd -c "$HOME/.config/dk/sxhkdrc" &
 fi
 
-#if hash lemonbar.sh >/dev/null 2>&1; then
-#	pkill lemonbar
-#	sleep 0.5
-#	lemonbar.sh &
-#fi
+if hash lemonbar.sh >/dev/null 2>&1; then
+	pkill lemonbar
+	sleep 0.5
+	lemonbar.sh &
+fi
 
 border_width=2
 border_outer_width=0
@@ -34,43 +34,6 @@ border_outer_width=0
 	# default workspace '_' values used when allocating new workspaces
 	# can be applied to all existing workspaces when passed 'apply' after ws=_
 	dkcmd set ws=_ apply layout=tile master=1 stack=3 gap=5 msplit=0.5 ssplit=0.5
-
-	# change workspace names (default: number == name)
-	# dkcmd set \
-	# 	ws=1  name="edit" \
-	# 	ws=2  name="web" \
-	# 	ws=3  name="😀" \
-	# 	ws=4  name="😠" \
-	# 	ws=5  name="5" \
-	# 	ws=6  name="6" \
-	# 	ws=7  name="7" \
-	# 	ws=8  name="8" \
-	# 	ws=9  name="9" \
-	# 	ws=10 name="10"
-
-	# enable static workspaces and assign them to monitors (only relevant for multiple monitors)
-	# aside -
-	#       many that come from other workspace models tried dk and requested this feature
-	#       try embracing the default behaviour and allow access to any workspace from any monitor
-	#       you might end up liking it :)
-	#
-	# mon1='DisplayPort-0'
-	# mon2='HDMI-A-0'
-	# dkcmd set static_ws=true \
-	# 	ws=1  mon=$mon1 \
-	# 	ws=2  mon=$mon1 \
-	# 	ws=3  mon=$mon1 \
-	# 	ws=4  mon=$mon1 \
-	# 	ws=5  mon=$mon1 \
-	# 	ws=6  mon=$mon2 \
-	# 	ws=7  mon=$mon2 \
-	# 	ws=8  mon=$mon2 \
-	# 	ws=9  mon=$mon2 \
-	# 	ws=10 mon=$mon2
-
-
-	# global settings
-	# ---------------------
 
 	dkcmd set focus_open=true focus_urgent=true focus_mouse=true
 

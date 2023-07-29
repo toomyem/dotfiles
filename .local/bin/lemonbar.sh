@@ -23,7 +23,7 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 sep() {
-	echo " | "
+	echo " ┃ "
 }
 
 trim() {
@@ -154,5 +154,5 @@ while true; do
 	  ws-*) dkcmd win ws="${cmd#ws-}" ;;
 	esac
 	echo "%{l}$(show desktops window)%{c}$(show )%{r}$(show player cpuload memory disk network xbps calendar)"
-done <"$SOCK" | lemonbar -g 1600x28+0+0 -p -a 20 -F "$bar_fg_color" -B "$bar_bg_color" -f "CaskaydiaCove NFP:size=12" -f "FontAwesome:size=12" >"$SOCK"
+done <"$SOCK" | lemonbar -g 1600x28+0+0 -p -a 20 -F "$bar_fg_color" -B "$bar_bg_color" -f "Terminus:size=12" -f "FontAwesome:size=12" >"$SOCK"
 
