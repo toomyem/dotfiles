@@ -38,7 +38,7 @@ trim() {
 network() {
 	local s
 
-	s=$(ping -c 1 -w 1 -q 8.8.8.8 >/dev/null 2>&1 && echo "%{T2}%{T-}")
+	s=$(ping -c 1 -w 1 -q 8.8.8.8 >/dev/null 2>&1 && echo "")
 	echo "$s"
 }
 
@@ -64,33 +64,6 @@ memory() {
 
 disk() {
 	echo "$(df -h --output=target,used,size,pcent / | tail +2 | awk '{out=out" "$2"/"$3" ("$4")"} END {print out}')"
-}
-
-hlwm() {
-	local n
-	local tags
-	local name
-	local title
-
-	while true; do
-		n=$(herbstclient attr tags.count)
-		tags=""
-
-		for i in $(seq 0 $((n - 1))); do
-			name=$(herbstclient attr tags."$i".name)
-			color="%{F$tag_normal}"
-			[ "$(herbstclient attr tags.$i.client_count)" -eq 0 ] && color="%{F$tag_empty}"
-			[ "$(herbstclient attr tags.$i.urgent_count)" -gt 0 ] && color="%{F$tag_urgent}"
-			[ "$(herbstclient attr tags.focus.index)" -eq "$i" ] && name="[$name]"
-			tags="$tags $color%{A:switch-to-$i:}$name%{A}%{F-}"
-		done
-
-		title="$(herbstclient attr clients.focus.title 2>/dev/null)"
-		[ ${#title} -gt 30 ] && title="${title:0:30}…"
-
-		echo "set:hlwm:$tags | $title" >"$SOCK"
-		sleep 1
-	done
 }
 
 desktops() {
@@ -149,7 +122,6 @@ while true; do
 	read -r -t 1 cmd || true
 	case "$cmd" in
 	  play-pause) playerctl -p playerctld play-pause ;;
-	  switch-to-*) herbstclient use_index "${cmd#switch-to-}" ;;
 	  xbps) alacritty --class Scratchpad -e sudo /bin/xbps-install -u ;;
 	  ws-*) dkcmd win ws="${cmd#ws-}" ;;
 	esac

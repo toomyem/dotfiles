@@ -145,7 +145,7 @@ screens = [
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 #widget.Systray(),
-                widget.Mpris2(display_metadata=["xesam:title", "xesam:artist"], playing_text="󰐊 {track}", paused_text="󰏤 {track}", scroll=False, max_chars=50),
+                #widget.Mpris2(display_metadata=["xesam:title", "xesam:artist"], playing_text="󰐊 {track}", paused_text="󰏤 {track}", scroll=False, max_chars=50),
                 widget.CPU(fmt=" {}", format="{load_percent:.1f}%", update_interval=5),
                 widget.Memory(fmt="󰍛 {}", format="{MemUsed:.0f}G/{MemTotal:.0f}G", measure_mem='G', update_interval=5),
                 widget.DF(fmt="󱛟 {}", format="{uf}{m}/{r:.0f}%", measure="G", visible_on_warn=False),

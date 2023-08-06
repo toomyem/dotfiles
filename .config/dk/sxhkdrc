@@ -40,6 +40,9 @@ mod4 + ctrl + shift + r
 alt + {_,shift} + Tab
 	dkcmd win focus {next,prev}
 
+mod4 + Tab
+	dkcmd ws last
+
 mod4 + Delete
 	dkcmd win kill
 

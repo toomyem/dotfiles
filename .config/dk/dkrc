@@ -16,7 +16,6 @@ fi
 
 if hash lemonbar.sh >/dev/null 2>&1; then
 	pkill lemonbar
-	sleep 0.5
 	lemonbar.sh &
 fi
 
@@ -53,6 +52,8 @@ border_outer_width=0
 		outer_focus='#222222' \
 		outer_unfocus='#222222' \
 		outer_urgent='#222222'
+
+	dkcmd rule remove '*'
 
 	# open window(s) and use a callback function (user defined in config.h)
 	# we also ignore=true to stop the window from being resized on it's own from events
