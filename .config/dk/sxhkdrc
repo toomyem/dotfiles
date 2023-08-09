@@ -55,8 +55,8 @@ mod4 + {Left,Down,Up,Right}
 mod4 + {Up,Down}
 	dkcmd win mvstack {up,down}
 
-mod4 + {_,shift + ,ctrl + }{1-9,0}
-	dkcmd ws {view,send,follow} {1-9,10}
+mod4 + {_,shift +}{1-9,0}
+	dkcmd ws {view,follow} {1-9,10}
 
 mod4 + {_,shift + }{Plus,Minus}
 	dkcmd set {master,stack} {+1,-1}
